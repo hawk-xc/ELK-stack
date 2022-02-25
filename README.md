@@ -103,3 +103,24 @@ systemctl enable elasticsearch
 ### Install Kibana & configure ;;;;
 
 
+```bash
+nano /etc/elasticsearch/elasticsearch.yml
+```
+
+```
+node.name: Elk-siem
+network.host: _address_
+http.port: 9200
+discovery.type: single-node
+
+xpack.security.enabled: true
+xpack.security.authc.api_key.enabled: true
+#
+xpack
+  security:
+    authc:
+      realms:
+        native:
+          native1:
+            order: 0
+```
