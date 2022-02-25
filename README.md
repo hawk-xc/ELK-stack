@@ -69,16 +69,10 @@ sudo nano /etc/elasticsearch/elasticsearch.yml
 
 pada file konfigurasi diatas, silakan teman-teman hilangkan tanda pagar ( **#** ) pada awal syntak dan ubah network.host menjadi **== localhost** seperti berikut.
 
-
-
-
-
-
 ```
 node.name: Elk-siem
 network.host: _address_
 http.port: 9200
-discovery.type: single-node
 
 xpack.security.enabled: true
 xpack.security.authc.api_key.enabled: true
@@ -91,9 +85,6 @@ xpack
           native1:
             order: 0
 ```
-
-
-
 
 sebelumnya sebelum disimpan tambah-kan syntak baru dibawah, setelah itu simpan dengan _CTRL + X_
 
@@ -122,5 +113,53 @@ systemctl enable elasticsearch
 ```
 
 ### Install Kibana & configure ;;;;
+
+```bash
+apt-get install kibana -y
+```
+
+```bash
+nano /etc/kibana/kibana.yml
+```
+
+```
+server.port: 9200
+server.host: "_address_"
+elasticsearch.hosts: ["http://_address_:9200"]
+
+xpack.fleet.enabled: true
+xpack.fleet.agents.tlsCheckDisabled: true
+xpack.security.enabled: true
+xpack.ingestManager.fleet.tlsCheckDisabled: true
+xpack.encryptedSavedObjects.encryptionKey: "code-x-code"
+```
+
+```bash
+/usr/share/elasticsearch/bin/elasticsearch-setup-passwords interactive
+```
+
+add new elasticsearch password
+
+```bash
+mkdir /etc/systemd/system/elasticsearch.service.d
+```
+
+```bash
+echo -e "[Service\nTimeoutStartSec=900" | tee /etc/systemd/system/elasticsearch.service.d/startup-
+```
+
+```bash
+systemctl daemon-reload
+systemctl start elasticsearch
+systemctl enable elasticsearch
+systemctl start kibana
+systemctl enable kibana
+```
+
+now access your server
+
+`http://_add_:5601`
+
+
 
 
