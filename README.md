@@ -69,10 +69,31 @@ sudo nano /etc/elasticsearch/elasticsearch.yml
 
 pada file konfigurasi diatas, silakan teman-teman hilangkan tanda pagar ( **#** ) pada awal syntak dan ubah network.host menjadi **== localhost** seperti berikut.
 
+
+
+
+
+
 ```
-network.host: localhost
+node.name: Elk-siem
+network.host: _address_
 http.port: 9200
+discovery.type: single-node
+
+xpack.security.enabled: true
+xpack.security.authc.api_key.enabled: true
+#
+xpack
+  security:
+    authc:
+      realms:
+        native:
+          native1:
+            order: 0
 ```
+
+
+
 
 sebelumnya sebelum disimpan tambah-kan syntak baru dibawah, setelah itu simpan dengan _CTRL + X_
 
@@ -103,24 +124,3 @@ systemctl enable elasticsearch
 ### Install Kibana & configure ;;;;
 
 
-```bash
-nano /etc/elasticsearch/elasticsearch.yml
-```
-
-```
-node.name: Elk-siem
-network.host: _address_
-http.port: 9200
-discovery.type: single-node
-
-xpack.security.enabled: true
-xpack.security.authc.api_key.enabled: true
-#
-xpack
-  security:
-    authc:
-      realms:
-        native:
-          native1:
-            order: 0
-```
